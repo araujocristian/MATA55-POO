@@ -11,7 +11,7 @@ public class Movimento {
     private java.util.Calendar dataAbertura, dataFechamento;
     private Pedido[] pedidos;
 
-    public Movimento(Calendar dataAbertura, int mesa) {
+    public Movimento(java.util.Calendar dataAbertura, int mesa) {
         this.mesa = mesa;
         this.dataAbertura = dataAbertura;
         this.status = 0;
