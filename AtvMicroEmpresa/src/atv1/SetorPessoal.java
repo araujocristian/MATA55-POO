@@ -24,6 +24,13 @@ public class SetorPessoal {
             funcionarios[quantDeFuncionarios] = new Funcionario(sal, numMat, funcao, depto, nome);
             quantDeFuncionarios++;
         }
+        
     }
     
+    public void imprimeFolha(){ 
+         int i;
+        System.out.println("************* Folha de Pagamento *************");
+        for (i=0; i< total; i++)
+            System.out.println("Nome = " +funcionarios[i].getNome()+"Salario = "+funcionarios[i].getSalario());
+     }
 }
