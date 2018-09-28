@@ -7,7 +7,7 @@ package exfixacao2;
 public class DataHora {
 
     private int dia, mes, ano;
-    private Horario hora;
+    Horario hora;
 
     public DataHora(int dia, int mes, int ano, int hora, int minuto) {
         this.dia = dia;
