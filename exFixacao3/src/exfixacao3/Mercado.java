@@ -32,5 +32,17 @@ public class Mercado {
         return clientes.remove(cliente);
     }
     
+    public Produto getProduto(String codigo) {        
+        for(int i= 0; i < produtos.size(); i++) {
+            if (produtos.get(i).getCodigo().equals(codigo)) {
+                return produtos.get(i);
+            }
+        }
+        
+        return null;         
+    }
+    
+    
+    
     
 }
