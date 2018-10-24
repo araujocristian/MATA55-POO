@@ -7,7 +7,7 @@ import java.lang.Math;
  */
 public class Circulo {
     private double raio;
-    public static final double PI = 3.14159;
+    private static final double PI = 3.14159;
 
 
     public Circulo(double raio) {
