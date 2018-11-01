@@ -3,6 +3,8 @@ package cliente;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -16,6 +18,7 @@ public class Cliente {
     
     public static void main(String[] args) {
         try {
+            // conecta cliente
             Socket cliente = new Socket("127.0.0.1",12345);
             // cria variaveis de entrada e saida de dados
             ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
@@ -34,25 +37,35 @@ public class Cliente {
             
             System.out.println("Informe a quantidade de lembretes: ");
             n = teclado.nextInt();
-            
+            teclado.nextLine(); // esvazia o buffer do teclado
+
             for(int j=0; j < n; j++){
                 System.out.println("Informe o nome do Lembrete: ");
                 nome = teclado.nextLine();
 
                 System.out.printf("Informe a hora do Lembrete no formato HH:mm:ss :\n");
                 hora = teclado.next();
-
-                Lembrete lembrete = new Lembrete(nome,hora);
+                teclado.nextLine(); // esvazia o buffer do teclado
+                
+                DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_TIME;
+                LocalTime horaLembrete = LocalTime.parse(hora, dtf);
+                
+                Lembrete lembrete = new Lembrete(nome,horaLembrete);
                 lembretes.add(lembrete);
+                System.out.println("\n Lembrete Adicionado! \n");
                 
                 // envia dados para o servidor
                 saida.flush();
                 saida.writeObject(hora);
             }
             
+            // envia sinal de fim 
+            saida.flush();
+            saida.writeObject("f");
+            
             // verifica entrada e esperar para lembrar
             while(cont < n){
-                String horaLembrete = (String) entrada.readObject();
+                LocalTime horaLembrete = (LocalTime) entrada.readObject();
 
                 for(Lembrete lem: lembretes){
                     if(lem.getHora().equals(horaLembrete)){
@@ -62,7 +75,9 @@ public class Cliente {
                 }
             }
             
+            // encerra sessão
             entrada.close();
+            cliente.close();
             System.out.println("Conexão encerrada");
         }
         catch(Exception e) {

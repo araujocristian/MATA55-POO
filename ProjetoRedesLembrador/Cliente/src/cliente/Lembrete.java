@@ -1,6 +1,7 @@
 package cliente;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 
 /**
  *
@@ -8,9 +9,9 @@ import java.io.Serializable;
  */
 public class Lembrete implements Serializable {
     private String nome;
-    private String hora;
+    private LocalTime hora;
 
-    public Lembrete(String nome, String hora) {
+    public Lembrete(String nome, LocalTime hora) {
         this.nome = nome;
         this.hora = hora;
     }
@@ -23,11 +24,11 @@ public class Lembrete implements Serializable {
         this.nome = nome;
     }
 
-    public String getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setData(String hora) {
+    public void setData(LocalTime hora) {
         this.hora = hora;
     }
     
