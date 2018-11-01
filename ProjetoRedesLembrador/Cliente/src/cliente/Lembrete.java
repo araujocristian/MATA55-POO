@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 /**
  *
- * @author cristian
+ * @author Cristian Araujo
  */
 public class Lembrete implements Serializable {
     private String nome;

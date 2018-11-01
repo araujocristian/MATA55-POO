@@ -11,19 +11,22 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author cristian
+ * @author Cristian Araujo
  */
 public class Servidor {
     private static final Lembrete LEMBRETE = new Lembrete();
+    private static final ArrayList<LocalTime> horaLembretes = new ArrayList<>();
     
+    private static String clienteDado = "";
     private static JTextField txtPorta;
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
     try {
         
-        
+        // cria tela para porta do servidor
         JLabel lblMessage = new JLabel("Abrir porta do Servidor:");
         txtPorta = new JTextField("12345");
         Object[] texts = {lblMessage, txtPorta };
@@ -42,27 +45,24 @@ public class Servidor {
             ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
             ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
 
-            // cria Array de horas de lembretes
-            ArrayList<LocalTime> horaLembretes = new ArrayList<>();
-            String clienteDado = "";
-
             // armazena dados do cliente
-            while(true){            
+            while(true){
+                //recebe dados do cliente
                 clienteDado = (String) entrada.readObject();
 
-                if(clienteDado.equals("f")) break;
+                if(clienteDado.equals("f")) break; // verifica se é o digito final
 
-                LocalTime horaLembrete = LEMBRETE.formatarHora(clienteDado);
-
+                LocalTime horaLembrete = LEMBRETE.formatarHora(clienteDado); // formata hora recebida 
+                // add horario a lista
                 horaLembretes.add(horaLembrete);
-                LEMBRETE.textoAlarmeAdd(horaLembrete);
+                LEMBRETE.textoAlarmeAdd(horaLembrete); //Imprime o texto de alarme adicionado
             }
-
+            // verifica hora de lembrar
             while(true){
                 for(LocalTime h: horaLembretes){
-                    if(LEMBRETE.alarmar(h)){
+                    if(LEMBRETE.alarmar(h)){ //verifica se precisa alarmar
                         saida.flush();
-                        saida.writeObject(h);
+                        saida.writeObject(h); //envia alarme para o cliente
                         horaLembretes.remove(h);
                     }
                 }

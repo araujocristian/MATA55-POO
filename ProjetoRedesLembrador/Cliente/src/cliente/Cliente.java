@@ -13,10 +13,12 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author cristian
+ * @author Cristian Araujo
  */
 public class Cliente extends JFrame {
     
+    private static ArrayList<Lembrete> lembretes = new ArrayList<>();
+
     private static JTextField txtIP;
     private static JTextField txtPorta;
     private static JTextField txtQuant;
@@ -26,10 +28,12 @@ public class Cliente extends JFrame {
     private static String hora;
     private static int n;
 
-    
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         try {
-            
+            // cria tela para pegar dados de conexção com o servidor 
             JLabel lblMessage = new JLabel("Conectar ao Servidor:");
             txtIP = new JTextField("127.0.0.1");
             txtPorta = new JTextField("12345");
@@ -42,14 +46,9 @@ public class Cliente extends JFrame {
             // cria variaveis de entrada e saida de dados
             ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
             ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
-            
-            // array de lembretes
-            ArrayList<Lembrete> lembretes = new ArrayList<>();
-            
-            int cont = 0;
-            
+                        
             // pega dados dos lembretes
-            
+            // cria tela para pegar quantidade de lembretes
             JLabel lblMessage2 = new JLabel("Informe a quantidade de lembretes:");
             txtQuant = new JTextField("2");
             Object[] texts2 = {lblMessage2, txtQuant};
@@ -58,6 +57,7 @@ public class Cliente extends JFrame {
             n = Integer.parseInt(txtQuant.getText());
 
             for(int j=0; j < n; j++){
+                // cria tela para pegar informações do lembrete
                 JLabel lblMessage3 = new JLabel("Informe dados do lembrete:");
                 txtNome = new JTextField("Beber água");
                 txtHora = new JTextField("22:48");
@@ -86,13 +86,15 @@ public class Cliente extends JFrame {
             saida.writeObject("f");
             
             // verifica a resposta do servidor e esperar para lembrar
-            while(cont < n){
+            while(!lembretes.isEmpty()){
+                // recebe dados do servidor
                 LocalTime horaLembrete = (LocalTime) entrada.readObject();
-
+                
+                // Pega o Lembrete que vai ser lembrado
                 for(Lembrete lem: lembretes){
                     if(lem.getHora().equals(horaLembrete)){
-                        cont++;
                         JOptionPane.showMessageDialog(null,"Lembrar de " + lem.getNome());
+                        lembretes.remove(lem);
                     }
                 }
             }

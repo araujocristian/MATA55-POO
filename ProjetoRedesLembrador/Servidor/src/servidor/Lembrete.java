@@ -5,15 +5,14 @@
 
 package servidor;
 
-import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
  *
- * @author cristian
+ * @author Cristian Araujo
  */
-public class Lembrete implements Serializable {
+public class Lembrete {
 
     public Lembrete() {}
     
