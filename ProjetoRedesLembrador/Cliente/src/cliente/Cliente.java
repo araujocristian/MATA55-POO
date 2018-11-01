@@ -8,18 +8,34 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
  * @author cristian
  */
-public class Cliente {
+public class Cliente extends JFrame {
+    
+    private static JTextField txtIP;
+    private static JTextField txtPorta;
+    private static JTextField txtNome;
+
     
     public static void main(String[] args) {
         try {
+            
+            JLabel lblMessage = new JLabel("Verificar!");
+            txtIP = new JTextField("127.0.0.1");
+            txtPorta = new JTextField("12345");
+            Object[] texts = {lblMessage, txtIP, txtPorta };
+            JOptionPane.showMessageDialog(null, texts);
+
             // conecta cliente
-            Socket cliente = new Socket("127.0.0.1",12345);
+            Socket cliente = new Socket(txtIP.getText(),Integer.parseInt(txtPorta.getText()));
+
             // cria variaveis de entrada e saida de dados
             ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
             ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
@@ -47,9 +63,11 @@ public class Cliente {
                 hora = teclado.next();
                 teclado.nextLine(); // esvazia o buffer do teclado
                 
+                // cria o localTime formatado
                 DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_TIME;
                 LocalTime horaLembrete = LocalTime.parse(hora, dtf);
                 
+                // cria o lembrete
                 Lembrete lembrete = new Lembrete(nome,horaLembrete);
                 lembretes.add(lembrete);
                 System.out.println("\n Lembrete Adicionado! \n");
@@ -63,7 +81,7 @@ public class Cliente {
             saida.flush();
             saida.writeObject("f");
             
-            // verifica entrada e esperar para lembrar
+            // verifica a resposta do servidor e esperar para lembrar
             while(cont < n){
                 LocalTime horaLembrete = (LocalTime) entrada.readObject();
 

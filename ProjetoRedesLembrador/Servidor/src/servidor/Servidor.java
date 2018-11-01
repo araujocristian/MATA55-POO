@@ -1,22 +1,17 @@
 package servidor;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author cristian
  */
 public class Servidor {
-    
+    private static final Lembrete LEMBRETE = new Lembrete();
     /**
      * @param args the command line arguments
      */
@@ -36,7 +31,7 @@ public class Servidor {
         ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
         
         // cria Array de horas de lembretes
-        ArrayList<LocalTime> horaLembretes = new ArrayList<LocalTime>();
+        ArrayList<LocalTime> horaLembretes = new ArrayList<>();
         String clienteDado = "";
         
         // armazena dados do cliente
@@ -45,17 +40,15 @@ public class Servidor {
             
             if(clienteDado.equals("f")) break;
 
-            DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_TIME;
-            LocalTime horaLembrete = LocalTime.parse(clienteDado, dtf);
-
+            LocalTime horaLembrete = LEMBRETE.formatarHora(clienteDado);
+            
             horaLembretes.add(horaLembrete);
-            System.out.println("\nLembrete Adicionado!");
-            System.out.println("Horario: " + horaLembrete + "\n");
+            LEMBRETE.textoAlarmeAdd(horaLembrete);
         }
         
         while(true){
             for(LocalTime h: horaLembretes){
-                if(h.equals(LocalTime.now())){
+                if(LEMBRETE.alarmar(h)){
                     saida.flush();
                     saida.writeObject(h);
                     horaLembretes.remove(h);
