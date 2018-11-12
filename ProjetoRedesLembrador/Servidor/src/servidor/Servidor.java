@@ -1,5 +1,7 @@
 package servidor;
 
+import java.awt.HeadlessException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
@@ -71,7 +73,7 @@ public class Servidor {
             }
          }  
     }   
-    catch(Exception e) {
+    catch(HeadlessException | IOException | ClassNotFoundException | NumberFormatException e) {
        System.out.println("Erro: " + e.getMessage());
     }
   }   

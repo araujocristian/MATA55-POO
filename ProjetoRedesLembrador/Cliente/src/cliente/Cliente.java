@@ -1,5 +1,7 @@
 package cliente;
 
+import java.awt.HeadlessException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -104,7 +106,7 @@ public class Cliente extends JFrame {
             cliente.close();
             System.out.println("Agradecemos por usar o Lembrador!");
         }
-        catch(Exception e) {
+        catch(HeadlessException | IOException | ClassNotFoundException | NumberFormatException e) {
           System.out.println("Erro: " + e.getMessage());
         }
     }
