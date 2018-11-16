@@ -1,5 +1,6 @@
-package exincremental;
+package bar;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -8,21 +9,32 @@ import java.util.Calendar;
  */
 public class Movimento {
     private int mesa, status;
-    private java.util.Calendar dataAbertura, dataFechamento;
+    private Calendar dataAbertura, dataFechamento;
     private Pedido[] pedidos;
+    private ArrayList<Cliente> clientes = new ArrayList<>(); 
 
-    public Movimento(java.util.Calendar dataAbertura, int mesa) {
+    public Movimento(Calendar dataAbertura, int mesa) {
         this.mesa = mesa;
         this.dataAbertura = dataAbertura;
         this.status = 0;
     }
     
-    public void pagar(java.util.Calendar dataFechamento) {
+    public void addCliente(Cliente cliente){
+        clientes.add(cliente);
+    }
+    
+    public void removeCliente(int ID){
+        for(Cliente c : clientes) {
+            if(c.getID() == ID) clientes.remove(c);
+        }
+    }
+    
+    public void pagar(Calendar dataFechamento) {
         setDataFechamento(dataFechamento);
         setStatus(1);
     }
     
-    public void fechar(java.util.Calendar dataFechamento) {
+    public void fechar(Calendar dataFechamento) {
         setDataFechamento(dataFechamento);
         setStatus(9);
     }
@@ -43,19 +55,19 @@ public class Movimento {
         this.status = status;
     }
 
-    public java.util.Calendar getDataAbertura() {
+    public Calendar getDataAbertura() {
         return dataAbertura;
     }
 
-    public void setDataAbertura(java.util.Calendar dataAbertura) {
+    public void setDataAbertura(Calendar dataAbertura) {
         this.dataAbertura = dataAbertura;
     }
 
-    public java.util.Calendar getDataFechamento() {
+    public Calendar getDataFechamento() {
         return dataFechamento;
     }
 
-    public void setDataFechamento(java.util.Calendar dataFechamento) {
+    public void setDataFechamento(Calendar dataFechamento) {
         this.dataFechamento = dataFechamento;
     }
 
