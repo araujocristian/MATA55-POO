@@ -10,24 +10,41 @@ package aplicacaomapa;
  * @author cristian.araujo
  */
 public class LivroDeBiblioteca extends Livro implements ItemDeBiblioteca{
-
+    private boolean emprestado;
+    private String localizacao;
     public LivroDeBiblioteca(String titulo, String autor, short numeroDePaginas, short anoDeEdicao) {
         super(titulo, autor, numeroDePaginas, anoDeEdicao);
     }
 
+    public boolean isEmprestado() {
+        return emprestado;
+    }
+
+    public void setEmprestado(boolean emprestado) {
+        this.emprestado = emprestado;
+    }
+
+    public  String getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
+    }
+    
     @Override
     public void empresta() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        setEmprestado(true);
     }
 
     @Override
     public void devolve() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        setEmprestado(false);
     }
 
     @Override
     public String descricao() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return super.toString()+"Emprestado: " + emprestado + "\n" + "Localização: " + localizacao;
+        
     }
-    
 }
