@@ -9,13 +9,6 @@ package atvfix6;
  *
  * @author cristian
  */
-public class AtvFix6 {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
-    
+public interface Conduzivel {
+    void curvar(float angulo);
 }
